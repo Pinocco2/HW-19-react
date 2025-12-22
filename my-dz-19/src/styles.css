@@ -1,14 +1,35 @@
-/* styles.css – чоткі та сучасні стилі */
+/* styles.css – Стиль як темні шпалери iOS (глибокий чорний, grainy, subtle фіолетовий glow, преміум glassmorphism) */
 
 * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: #f5f7fa;
-    color: #333;
+    min-height: 100vh;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background: #000000;
+    /* Абсолютно чорний для OLED */
+    color: #f0f0f0;
+    position: relative;
+}
+
+/* Фон у стилі iOS: grainy noise + subtle фіолетовий radial glow */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background:
+        radial-gradient(circle at 30% 20%, rgba(100, 30, 180, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 70% 80%, rgba(120, 40, 200, 0.08) 0%, transparent 50%),
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="5" stitchTiles="stitch"/><feColorMatrix type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.04 0"/></filter><rect width="200" height="200" filter="url(%23noise)" opacity="0.3"/></svg>') repeat,
+        #000000;
+    pointer-events: none;
+    z-index: -1;
 }
 
 .app {
@@ -18,168 +39,171 @@ body {
     align-items: center;
 }
 
-/* Searchbar */
+/* ====================== Searchbar ====================== */
 .searchbar {
     position: sticky;
     top: 0;
     width: 100%;
-    padding: 20px 0;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 50px 0;
+    background: rgba(20, 20, 20, 0.75);
+    backdrop-filter: blur(30px) saturate(180%);
+    border-bottom: 1px solid rgba(100, 30, 180, 0.15);
+    box-shadow: 0 10px 50px rgba(0, 0, 0, 0.6);
     z-index: 10;
 }
 
 .form {
-    max-width: 600px;
+    max-width: 800px;
     margin: 0 auto;
     display: flex;
-    border-radius: 50px;
+    border-radius: 60px;
     overflow: hidden;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    background: rgba(40, 40, 40, 0.5);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(100, 30, 180, 0.2);
+    transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.form:hover {
+    border-color: rgba(100, 30, 180, 0.4);
+    box-shadow: 0 0 40px rgba(100, 30, 180, 0.2);
 }
 
 .input {
     flex: 1;
-    padding: 16px 24px;
-    font-size: 18px;
+    padding: 22px 35px;
+    font-size: 20px;
+    background: transparent;
     border: none;
     outline: none;
-    background: #fff;
+    color: #fff;
 }
 
+.input::placeholder {
+    color: #888;
+}
+
+/* Кнопка пошуку – м'яка анімація в стилі iOS */
 .button {
-    padding: 0 32px;
-    background: #fff;
+    padding: 0 50px;
+    background: linear-gradient(to right, rgba(100, 30, 180, 0.9), rgba(120, 40, 200, 0.9));
     border: none;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.3s;
+    transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .button:hover {
-    background: #f0f0f0;
+    background: linear-gradient(to right, rgba(120, 40, 200, 1), rgba(100, 30, 180, 1));
+    box-shadow: 0 0 30px rgba(100, 30, 180, 0.4);
+    transform: scale(1.05);
 }
 
 .button-label {
-    font-size: 18px;
-    font-weight: 600;
-    color: #667eea;
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
 }
 
-/* Gallery */
+/* ====================== Gallery ====================== */
 .gallery {
-    max-width: 1400px;
+    max-width: 1600px;
     width: 100%;
-    margin: 40px auto;
-    padding: 0 20px;
+    margin: 70px auto;
+    padding: 0 30px;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 24px;
+    grid-template-columns: repeat(auto-fill, minmax(370px, 1fr));
+    gap: 45px;
     list-style: none;
 }
 
 .gallery-item {
-    border-radius: 12px;
+    border-radius: 28px;
     overflow: hidden;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
+    background: rgba(25, 25, 25, 0.6);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(100, 30, 180, 0.15);
+    box-shadow: 0 15px 50px rgba(0, 0, 0, 0.7);
+    transition: all 1s cubic-bezier(0.25, 0.8, 0.25, 1);
     cursor: pointer;
-    background: #fff;
 }
 
 .gallery-item:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    transform: translateY(-18px) scale(1.03);
+    border-color: rgba(100, 30, 180, 0.4);
+    box-shadow: 0 35px 90px rgba(100, 30, 180, 0.25);
 }
 
 .gallery-item img {
     width: 100%;
-    height: 250px;
+    height: 290px;
     object-fit: cover;
-    display: block;
-    transition: transform 0.4s;
+    transition: transform 1.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .gallery-item:hover img {
-    transform: scale(1.05);
+    transform: scale(1.15);
 }
 
-/* Button */
+/* Load more – плавна анімація в стилі iOS */
 .load-more {
-    margin: 40px 0 60px;
-    padding: 14px 40px;
-    font-size: 18px;
-    font-weight: 600;
+    margin: 70px 0 100px;
+    padding: 20px 55px;
+    font-size: 20px;
+    font-weight: 700;
     color: #fff;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(to right, rgba(100, 30, 180, 0.9), rgba(120, 40, 200, 0.9));
     border: none;
-    border-radius: 50px;
+    border-radius: 60px;
     cursor: pointer;
-    box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
-    transition: all 0.3s;
+    box-shadow: 0 12px 40px rgba(100, 30, 180, 0.3);
+    transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .load-more:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(102, 126, 234, 0.5);
+    background: linear-gradient(to right, rgba(120, 40, 200, 1), rgba(100, 30, 180, 1));
+    transform: translateY(-8px) scale(1.06);
+    box-shadow: 0 25px 70px rgba(100, 30, 180, 0.5);
 }
 
-/* Loader */
+/* ====================== Loader & Modal ====================== */
 .loader {
+    margin: 90px 0;
     display: flex;
     justify-content: center;
-    align-items: center;
-    margin: 60px 0;
 }
 
-/* Modal */
 .overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.85);
+    background: rgba(0, 0, 0, 0.96);
+    backdrop-filter: blur(20px);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    animation: fadeIn 0.3s;
 }
 
 .modal {
-    max-width: 95vw;
-    max-height: 95vh;
-    border-radius: 12px;
+    max-width: 94vw;
+    max-height: 94vh;
+    border-radius: 28px;
     overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-    animation: zoomIn 0.4s;
+    border: 1px solid rgba(100, 30, 180, 0.3);
+    box-shadow: 0 50px 120px rgba(100, 30, 180, 0.3);
 }
 
-.modal img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-
-/* Анімації */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
+/* Адаптивність */
+@media (max-width: 768px) {
+    .gallery {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 30px;
+        padding: 0 15px;
     }
 
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes zoomIn {
-    from {
-        opacity: 0;
-        transform: scale(0.8);
-    }
-
-    to {
-        opacity: 1;
-        transform: scale(1);
+    .gallery-item img {
+        height: 250px;
     }
 }
